@@ -24,6 +24,12 @@ jobs:
             --passphrase-fd 0 --pinentry-mode loopback \
             --list-secret-keys
 
+      - name: Create orig tarball
+        run: |
+          cd ..
+          tar --exclude='.git' --exclude='debian' \
+            -czf clipvault_1.0.2.orig.tar.gz ClipVault
+
       - name: Build source package
         run: |
           debuild -S -sa \
