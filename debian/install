@@ -1,0 +1,2 @@
+app usr/share/clipvault/
+installation/clipvault-toggle.sh usr/bin/clipvault-toggle

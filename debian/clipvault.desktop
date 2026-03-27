@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=ClipVault
+Comment=Windows-style Clipboard Manager for Ubuntu
+Exec=/usr/bin/clipvault
+Icon=edit-paste
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=clipboard;copy;paste;history;
+StartupNotify=false

@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Remove the launcher created by postinst
+rm -f /usr/bin/clipvault
+
+#DEBHELPER#

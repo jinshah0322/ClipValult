@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+# Create /usr/bin/clipvault launcher
+cat > /usr/bin/clipvault << 'LAUNCHER'
+#!/bin/bash
+export DISPLAY="${DISPLAY:-:0}"
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-xcb}"
+exec python3 /usr/share/clipvault/app/main.py "$@"
+LAUNCHER
+chmod +x /usr/bin/clipvault
+
+# Make clipvault-toggle executable
+chmod +x /usr/bin/clipvault-toggle
+
+#DEBHELPER#
