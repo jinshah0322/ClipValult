@@ -6,10 +6,12 @@ Keyboard shortcut: Super+V (Win+V equivalent)
 
 import sys
 import os
+import argparse
 
 # Allow running from the project root: python app/main.py
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from app import __version__
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 
@@ -18,7 +20,20 @@ from app.ui.main_window import ClipVaultWindow
 from app.ui.tray_icon import TrayIcon
 
 
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        prog="clipvault",
+        description="Windows-style clipboard manager for Ubuntu",
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"ClipVault {__version__}"
+    )
+    return parser.parse_args()
+
+
 def main():
+    _parse_args()
+
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)

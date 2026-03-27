@@ -24,7 +24,7 @@ jobs:
             libxkbcommon-x11-0
 
       - name: Install Python dependencies
-        run: pip install PyQt5 pyperclip pynput Pillow pytest pytest-qt
+        run: pip install PyQt5 pynput Pillow pytest pytest-qt
 
       - name: Run tests
         run: xvfb-run --auto-servernum pytest

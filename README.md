@@ -45,8 +45,9 @@ clipboard_manager/
 │           └── clip_item_widget.py  # Per-item card widget
 ├── installation/
 │   ├── install.sh              # One-shot installer for Ubuntu/Debian
+│   ├── uninstall.sh            # Removes all installed files
 │   └── README.md               # Installation guide
-├── requirements.txt
+├── pyproject.toml              # Project metadata, deps, pytest config
 └── README.md
 ```
 
@@ -114,4 +115,32 @@ MAX_HISTORY = 50  # change this number
 - Ubuntu 20.04+
 - Debian 11+
 - Any GNOME / KDE / XFCE desktop on X11
-- Wayland: hotkey limited — use the tray icon instead
+
+---
+
+## Wayland limitations
+
+ClipVault is built on PyQt5 + X11. On Wayland sessions some features are restricted:
+
+| Feature | X11 | Wayland |
+|---------|-----|---------|
+| Clipboard history | Yes | Yes |
+| `Super+V` global hotkey | Yes | No |
+| Auto-paste on item click | Yes | Partial |
+| System tray icon | Yes | Yes (via XWayland) |
+
+**Why the hotkey does not work on Wayland:**
+`pynput` uses X11 APIs (`python-xlib`) to intercept global key events. Wayland's security model blocks applications from listening to input outside their own window, so the `Super+V` hotkey cannot be registered.
+
+**Workarounds on Wayland:**
+- Click the system tray icon to toggle the window
+- Run the session in **X11 mode**: log out → on the login screen click the gear icon → select **Ubuntu on Xorg** → log back in
+- Set the environment variable before launching:
+  ```bash
+  QT_QPA_PLATFORM=xcb clipvault
+  ```
+
+**Check which session you are on:**
+```bash
+echo $XDG_SESSION_TYPE   # prints "x11" or "wayland"
+```

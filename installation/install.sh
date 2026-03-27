@@ -44,7 +44,6 @@ echo -e "${GREEN}✓ System packages ready${NC}"
 # as the pip wheel breaks the xcb platform plugin on Ubuntu.
 echo -e "${YELLOW}[2/5] Installing Python packages...${NC}"
 pip3 install --quiet --user \
-    pyperclip \
     pynput \
     Pillow
 
