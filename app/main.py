@@ -19,11 +19,11 @@ from app.ui.tray_icon import TrayIcon
 
 
 def main():
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     app.setApplicationName("ClipVault")
     app.setQuitOnLastWindowClosed(False)
-    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    app.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
     history = HistoryManager()
     window  = ClipVaultWindow(history)

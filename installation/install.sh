@@ -34,6 +34,7 @@ sudo apt-get install -y -qq \
     xdotool \
     xclip \
     libxcb-xinerama0 \
+    libxcb-cursor0 \
     libxkbcommon-x11-0 \
     2>/dev/null || true
 
