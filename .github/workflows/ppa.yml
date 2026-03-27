@@ -20,22 +20,27 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch \
-            --passphrase-fd 0 --pinentry-mode loopback \
-            --list-secret-keys
+          # Configure gpg-agent for non-interactive passphrase entry
+          mkdir -p ~/.gnupg
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          gpg-connect-agent reloadagent /bye
 
       - name: Create orig tarball
         run: |
           cd ..
           tar --exclude='.git' --exclude='debian' \
-            -czf clipvault_1.0.2.orig.tar.gz ClipVault
+            -czf clipvault_1.0.3.orig.tar.gz ClipVault
 
       - name: Build source package
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          debuild -S -sa \
-            --no-lintian \
-            -k"${{ secrets.GPG_KEY_ID }}" \
-            --passphrase-file <(echo "${{ secrets.GPG_PASSPHRASE }}")
+          # Pre-load passphrase into gpg-agent
+          echo "$GPG_PASSPHRASE" | gpg --batch --yes \
+            --passphrase-fd 0 --pinentry-mode loopback \
+            --sign --output /dev/null /dev/null 2>/dev/null || true
+          debuild -S -sa -k"${{ secrets.GPG_KEY_ID }}"
 
       - name: Upload to Launchpad PPA
         run: |
