@@ -25,7 +25,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # ── Step 1: System packages ───────────────────────────────────────────────────
 echo -e "${YELLOW}[1/5] Installing system packages...${NC}"
-sudo apt-get update -qq
+sudo apt-get update 2>&1 | grep -v "^W:" || true   # ignore repo warnings (cdrom, expired keys)
 sudo apt-get install -y \
     python3 \
     python3-pip \
